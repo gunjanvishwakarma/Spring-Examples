@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	<bean class="com.gunjan.BeanCount" />
+	<bean class="com.gunjan.ToStringBeanPostProcessor" />
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>employee.properties</value>
+		</property>
+	</bean>
+	<bean id="customEditorConfigurer"
+		class="org.springframework.beans.factory.config.CustomEditorConfigurer">
+		<property name="propertyEditorRegistrars">
+			<list>
+				<bean class="com.gunjan.PhoneEditorRegistrar" />
+			</list>
+		</property>
+	</bean>
+	<bean scope="prototype" id="employee" class="com.gunjan.Employee"
+		init-method="setup" destroy-method="teardown">
+		<constructor-arg index="0" type="int">
+			<value>B101</value>
+		</constructor-arg>
+		<constructor-arg index="1" type="java.lang.String">
+			<value>654</value>
+		</constructor-arg>
+		<constructor-arg index="2" type="java.lang.String">
+			<value>SSE</value>
+		</constructor-arg>
+
+
+		<property name="name" value="Bob" />
+		<property name="age" value="25" />
+		<property name="innerBean">
+			<bean class="com.gunjan.InnerBean">
+				<property name="name" value="InnerBeanExample" />
+			</bean>
+		</property>
+		<property name="skill">
+			<list>
+				<value>Java</value>
+				<value>Spring</value>
+			</list>
+		</property>
+		<property name="manager">
+			<array>
+				<value>Name1</value>
+				<value>Name2</value>
+			</array>
+		</property>
+		<property name="emailAddress">
+			<array>
+				<value>test1@gmail.com</value>
+				<value>test2@gmail.com</value>
+				<value>test3@gmail.com</value>
+			</array>
+		</property>
+		<property name="daysHourMap">
+			<map>
+				<entry key="Mon">
+					<value>7</value>
+				</entry>
+				<entry key="Tue">
+					<value>8</value>
+				</entry>
+				<entry key="Wed">
+					<value>9</value>
+				</entry>
+				<entry key="Thru">
+					<value>7</value>
+				</entry>
+				<entry key="Fri">
+					<value>5</value>
+				</entry>
+			</map>
+		</property>
+
+		<property name="employeeProps">
+			<props>
+				<prop key="height">
+					6.10"
+				</prop>
+				<prop key="Weight">
+					73kg
+				</prop>
+			</props>
+		</property>
+		<property name="lastName">
+			<null />
+		</property>
+		<property name="employeePropsFrmFile">
+			<props>
+				<prop key="NAME">
+					${NAME}
+				</prop>
+				<prop key="ID">
+					${ID}
+				</prop>
+				<prop key="EMAIL">
+					${EMAIL}
+				</prop>
+			</props>
+		</property>
+		<property name="phoneNumber">
+			<value>917648746354</value>
+		</property>
+
+	</bean>
+</beans>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+	<bean id="mathImpl" class="com.gunjan.MathImpl" />
+	<bean id="entryLog" class="com.gunjan.EntryLog" />
+	<bean id="exitLog" class="com.gunjan.ExitLog" />
+	<bean id="entryExitLog" class="com.gunjan.EntryAndExitLog" />
+	<bean id="logRecoveryMsgOnException" class="com.gunjan.LogRecoveryMsgOnException" />
+	
+	<bean id="proxyMathImpl" class="org.springframework.aop.framework.ProxyFactoryBean">
+		<property name="proxyInterfaces">
+			<value>com.gunjan.IMath</value>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<idref bean="theTracingBeforeAdvisor" />
+				<idref bean="theTracingAfterAdvisor" />
+				<!-- <idref bean="entryExitLog" /> -->
+				<idref bean="logRecoveryMsgOnException" />
+			</list>
+		</property>
+		<property name="target">
+			<bean class="com.gunjan.MathImpl">
+			</bean>
+		</property>
+		<property name="proxyTargetClass" value="true" />
+	</bean>
+	<bean id="theTracingBeforeAdvisor"
+		class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="advice">
+			<ref bean="entryLog" />
+		</property>
+		<property name="mappedName">
+			<value>add</value>
+		</property>
+	</bean>
+	<bean id="theTracingAfterAdvisor"
+		class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor">
+		<property name="advice">
+			<ref bean="exitLog" />
+		</property>
+		<property name="mappedName">
+			<value>add</value>
+		</property>
+	</bean>
+</beans>

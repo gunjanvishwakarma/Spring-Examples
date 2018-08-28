@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN"
+    "http://www.springframework.org/dtd/spring-beans.dtd">
+
+<beans>
+  <bean id="afterBean" class="org.springframework.aop.framework.ProxyFactoryBean">
+    <property name="target">
+      <bean class="com.gunjan.MtBean">
+        <property name="firstName" ><null /></property>
+      </bean>
+    </property>
+    <property name="interceptorNames">
+      <list>
+        <idref bean="nullArgumentsNotAllowedBeforeAdvice"/>
+      </list>
+    </property>
+    <property name="proxyTargetClass" value="true"/>
+  </bean>
+
+  <bean id="nullArgumentsNotAllowedBeforeAdvice"
+        class="com.gunjan.NullArgumentsNotAllowedBeforeAdvice"/>
+
+</beans>

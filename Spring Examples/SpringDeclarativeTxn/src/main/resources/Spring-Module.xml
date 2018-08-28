@@ -1,0 +1,58 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+	<!-- Add this tag to enable annotations transactions -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/springdb" />
+		<property name="user" value="root" />
+		<property name="password" value="root" />
+
+		<!-- these are C3P0 properties -->
+		<property name="acquireIncrement" value="3" />
+		<property name="minPoolSize" value="3" />
+		<property name="maxPoolSize" value="10" />
+		<property name="maxIdleTime" value="10000" />
+	</bean>
+	<bean id="studentDao" class="com.gunjan.StudentDAO">
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+	</bean>
+	<bean id="marksDao" class="com.gunjan.MarksDAO">
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+	</bean>
+	<bean id="studentService" class="com.gunjan.StudentService">
+
+	</bean>
+
+	<bean id="entryExitLog" class="com.gunjan.EntryAndExitLog" />
+
+	<bean id="advisor"
+		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+		<property name="advice">
+			<ref bean="entryExitLog" />
+		</property>
+		<property name="patterns">
+			<list>
+				<value>.+DAO\..+</value>
+				<value>.+Service\..+</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="autoProxyCreator"
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"></bean>
+</beans>
