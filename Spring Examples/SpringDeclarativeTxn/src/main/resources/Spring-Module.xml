@@ -17,10 +17,10 @@
 	</bean>
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close">
-		<property name="driverClass" value="com.mysql.jdbc.Driver" />
-		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/springdb" />
-		<property name="user" value="root" />
-		<property name="password" value="root" />
+		<property name="driverClass" value="org.h2.Driver" />
+		<property name="jdbcUrl" value="jdbc:h2:file:~/test" />
+		<property name="user" value="sa" />
+		<property name="password" value="" />
 
 		<!-- these are C3P0 properties -->
 		<property name="acquireIncrement" value="3" />
@@ -35,10 +35,10 @@
 		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
 	</bean>
 	<bean id="studentService" class="com.gunjan.StudentService">
-
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
 	</bean>
 
-	<bean id="entryExitLog" class="com.gunjan.EntryAndExitLog" />
+	<!--<bean id="entryExitLog" class="com.gunjan.EntryAndExitLog" />
 
 	<bean id="advisor"
 		class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
@@ -54,5 +54,5 @@
 	</bean>
 
 	<bean id="autoProxyCreator"
-		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"></bean>
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"></bean>-->
 </beans>

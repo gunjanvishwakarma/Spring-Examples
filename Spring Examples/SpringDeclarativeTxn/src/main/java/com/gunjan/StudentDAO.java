@@ -12,6 +12,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public class StudentDAO implements IStudentDAO{
 
 	private JdbcTemplate jdbcTemplate;
