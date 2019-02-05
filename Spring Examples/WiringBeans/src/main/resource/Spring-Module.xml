@@ -10,8 +10,8 @@ http://www.springframework.org/schema/mvc
 http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
 http://www.springframework.org/schema/context
 http://www.springframework.org/schema/context/spring-context-4.0.xsd">
-	<bean class="com.gunjan.BeanCount" />
-	<bean class="com.gunjan.ToStringBeanPostProcessor" />
+	<bean class="com.com.gunjan.javaconfiguration.BeanCount" />
+	<bean class="com.com.gunjan.javaconfiguration.ToStringBeanPostProcessor" />
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="location">
@@ -22,11 +22,11 @@ http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 		class="org.springframework.beans.factory.config.CustomEditorConfigurer">
 		<property name="propertyEditorRegistrars">
 			<list>
-				<bean class="com.gunjan.PhoneEditorRegistrar" />
+				<bean class="com.PhoneEditorRegistrar" />
 			</list>
 		</property>
 	</bean>
-	<bean scope="prototype" id="employee" class="com.gunjan.Employee"
+	<bean scope="prototype" id="employee" class="com.com.gunjan.javaconfiguration.Employee"
 		init-method="setup" destroy-method="teardown">
 		<constructor-arg index="0" type="int">
 			<value>B101</value>
@@ -42,7 +42,7 @@ http://www.springframework.org/schema/context/spring-context-4.0.xsd">
 		<property name="name" value="Bob" />
 		<property name="age" value="25" />
 		<property name="innerBean">
-			<bean class="com.gunjan.InnerBean">
+			<bean class="com.com.gunjan.javaconfiguration.InnerBean">
 				<property name="name" value="InnerBeanExample" />
 			</bean>
 		</property>
